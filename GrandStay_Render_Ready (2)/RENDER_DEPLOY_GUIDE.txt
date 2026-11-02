@@ -1,0 +1,21 @@
+GRANDSTAY - RENDER DEPLOYMENT
+
+1. Upload/commit the CONTENTS of this folder to the root of your GitHub repository:
+   app.py, requirements.txt, render.yaml, templates/, static/, grandstay.db.
+   Do not upload .venv.
+
+2. On Render choose New -> Web Service, connect your GrandStay GitHub repository.
+   Runtime: Python 3.
+   Root Directory: leave EMPTY if app.py and requirements.txt are at repository root.
+   Build Command: pip install -r requirements.txt
+   Start Command: gunicorn app:app
+   Health Check Path: /
+
+3. Deploy. If an existing Render service has an incorrect Root Directory, edit Settings
+   and point it to the folder containing app.py and requirements.txt. Re-deploy latest commit.
+
+Important:
+- This is a Flask application. Do NOT select Node, Rust, or run cargo commands.
+- Render free filesystem is temporary; SQLite data may reset after a redeploy/restart.
+  For durable live bookings, use a persistent disk (paid) or hosted PostgreSQL and migrate.
+- Review admin/demo credentials in app.py before making the site public.
